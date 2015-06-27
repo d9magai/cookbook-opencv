@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 file_path="#{Chef::Config['file_cache_path']}/#{node["opencv"]["version"]}.zip"
-execute "install opencv" do
-  command "curl -o #{file_path} #{node["opencv"]["url"]}"
-  not_if{ ::File.exists?("#{file_path}")}
+remote_file file_path do
+  source node["opencv"]["url"][node['opencv']['version']]
+  checksum node["opencv"]["checksum"][node['opencv']['version']]
+  backup false
 end
-
 
 include_recipe "build-essential"
 
-[
+%w(
 unzip
 cmake
-].each do |pkg|
+).each do |pkg|
   package pkg do
     action :install
   end

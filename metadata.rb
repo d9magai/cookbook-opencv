@@ -1,1 +1,4 @@
-name       'opencv'
+name 'opencv'
+
+depends 'build-essential'
+
